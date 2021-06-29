@@ -38,38 +38,53 @@ class dokuwiki {
 
 }
 
-class politiquewiki {
+class wikisite {
   file {
-  'copy-dokuwiki-recettes.wiki':
-    ensure  => directory,
-    path    => '/var/www/recettes.wiki',
-    source  => '/usr/src/dokuwiki',
-    recurse => true,
-    owner   => 'www-data',
-    group   => 'www-data',
-    require => File['move-dokuwiki']
+    'create site':
+      ensure  => directory,
+      path    => "/var/www/${siteName}",
+      source  => '/usr/src/dokuwiki',
+      recurse => true,
+      owner   => 'www-data',
+      group   => 'www-data',
+      require => File['move-dokuwiki']
   }
 }
 
-class recetteswiki {
-  file {
-  'create directory for politique.wiki':
-    ensure  => directory,
-    path    => '/var/www/politique.wiki',
-    source  => '/usr/src/dokuwiki',
-    recurse => true,
-    owner   => 'www-data',
-    group   => 'www-data',
-    require => File['move-dokuwiki']
-  }
-}
+# class politiquewiki {
+#   file {
+#     'copy-dokuwiki-recettes.wiki':
+#       ensure  => directory,
+#       path    => '/var/www/recettes.wiki',
+#       source  => '/usr/src/dokuwiki',
+#       recurse => true,
+#       owner   => 'www-data',
+#       group   => 'www-data',
+#       require => File['move-dokuwiki']
+#   }
+# }
+
+# class recetteswiki {
+#   file {
+#   'create directory for politique.wiki':
+#     ensure  => directory,
+#     path    => '/var/www/politique.wiki',
+#     source  => '/usr/src/dokuwiki',
+#     recurse => true,
+#     owner   => 'www-data',
+#     group   => 'www-data',
+#     require => File['move-dokuwiki']
+#   }
+# }
 
 node server0 {
+  $siteName = "politique.wiki"
   include dokuwiki
-  include politiquewiki
+  include wikisite
 }
 
 node server1 {
+  $siteName = "politique.wiki"
   include dokuwiki
-  include recetteswiki
+  include wikisite
 }
