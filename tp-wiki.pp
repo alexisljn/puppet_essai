@@ -84,7 +84,7 @@ node server0 {
 }
 
 node server1 {
-  $siteName = "politique.wiki"
+  $siteName = "recettes.wiki"
   include dokuwiki
   include wikisite
 }
