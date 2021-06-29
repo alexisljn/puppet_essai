@@ -38,24 +38,38 @@ class dokuwiki {
 
 }
 
-class wikisite {
+define install_site($siteName, $source, $owner) {
   file {
     'create site':
       ensure  => directory,
       path    => "/var/www/${siteName}",
-      source  => '/usr/src/dokuwiki',
+      source  => $source,
       recurse => true,
-      owner   => 'www-data',
-      group   => 'www-data',
+      owner   => $owner,
+      group   => $owner,
       require => File['move-dokuwiki']
   }
 }
 
-# class politiquewiki {
+node server0 {
+#  $siteName = "politique.wiki"
+  include dokuwiki
+  install_site('politique.wiki', '/usr/src/dokuwiki', 'www-data')
+  install_site('tajineworld.com', '/usr/src/dokuwiki', 'www-data')
+  install_site('lemondedelaraclette.fr', '/usr/src/dokuwiki', 'www-data')
+}
+
+node server1 {
+#  $siteName = "recettes.wiki"
+  include dokuwiki
+  install_site('recettes.wiki', '/usr/src/dokuwiki', 'www-data')
+}
+
+# class wikisite {
 #   file {
-#     'copy-dokuwiki-recettes.wiki':
+#     'create site':
 #       ensure  => directory,
-#       path    => '/var/www/recettes.wiki',
+#       path    => "/var/www/${siteName}",
 #       source  => '/usr/src/dokuwiki',
 #       recurse => true,
 #       owner   => 'www-data',
@@ -63,28 +77,3 @@ class wikisite {
 #       require => File['move-dokuwiki']
 #   }
 # }
-
-# class recetteswiki {
-#   file {
-#   'create directory for politique.wiki':
-#     ensure  => directory,
-#     path    => '/var/www/politique.wiki',
-#     source  => '/usr/src/dokuwiki',
-#     recurse => true,
-#     owner   => 'www-data',
-#     group   => 'www-data',
-#     require => File['move-dokuwiki']
-#   }
-# }
-
-node server0 {
-  $siteName = "politique.wiki"
-  include dokuwiki
-  include wikisite
-}
-
-node server1 {
-  $siteName = "recettes.wiki"
-  include dokuwiki
-  include wikisite
-}
