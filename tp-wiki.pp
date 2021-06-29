@@ -38,7 +38,7 @@ class dokuwiki {
 
 }
 
-node server0 {
+node server1 {
   #include dokuwiki
 }
 
