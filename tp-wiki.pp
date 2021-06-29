@@ -39,7 +39,7 @@ class dokuwiki {
 }
 
 node server0 {
-  include dokuwiki
+  #include dokuwiki
 }
 
 # file {
