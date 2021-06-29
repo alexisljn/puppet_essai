@@ -66,9 +66,10 @@ class recetteswiki {
 
 node server0 {
   include dokuwiki
-  include politique-wiki
+  include politiquewiki
 }
 
 node server1 {
   include dokuwiki
+  include recetteswiki
 }
