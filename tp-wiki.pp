@@ -38,7 +38,7 @@ class dokuwiki {
 
 }
 
-class politique-wiki {
+class politiquewiki {
   file {
   'copy-dokuwiki-recettes.wiki':
     ensure  => directory,
@@ -51,7 +51,7 @@ class politique-wiki {
   }
 }
 
-class recettes-wiki {
+class recetteswiki {
   file {
   'create directory for politique.wiki':
     ensure  => directory,
