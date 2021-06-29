@@ -38,28 +38,37 @@ class dokuwiki {
 
 }
 
+class politique-wiki {
+  file {
+  'copy-dokuwiki-recettes.wiki':
+    ensure  => directory,
+    path    => '/var/www/recettes.wiki',
+    source  => '/usr/src/dokuwiki',
+    recurse => true,
+    owner   => 'www-data',
+    group   => 'www-data',
+    require => File['move-dokuwiki']
+  }
+}
+
+class recettes-wiki {
+  file {
+  'create directory for politique.wiki':
+    ensure  => directory,
+    path    => '/var/www/politique.wiki',
+    source  => '/usr/src/dokuwiki',
+    recurse => true,
+    owner   => 'www-data',
+    group   => 'www-data',
+    require => File['move-dokuwiki']
+  }
+}
+
+node server0 {
+  include dokuwiki
+  include politique-wiki
+}
+
 node server1 {
   include dokuwiki
 }
-
-# file {
-# 'copy-dokuwiki-recettes.wiki':
-#   ensure  => directory,
-#   path    => '/var/www/recettes.wiki',
-#   source  => '/usr/src/dokuwiki',
-#   recurse => true,
-#   owner   => 'www-data',
-#   group   => 'www-data',
-#   require => File['move-dokuwiki']
-# }
-#
-# file {
-# 'create directory for politique.wiki':
-#   ensure  => directory,
-#   path    => '/var/www/politique.wiki',
-#   source  => '/usr/src/dokuwiki',
-#   recurse => true,
-#   owner   => 'www-data',
-#   group   => 'www-data',
-#   require => File['move-dokuwiki']
-# }
