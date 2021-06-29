@@ -52,21 +52,18 @@ define install_site($siteName, $source, $owner) {
 }
 
 node server0 {
-#  $siteName = "politique.wiki"
   include dokuwiki
   install_site {
     'politique.wiki':
       siteName => 'politique.wiki',
       source   => '/usr/src/dokuwiki',
       owner    => 'www-data'
-  }
-  install_site {
+    ;
     'tajineworld.com':
       siteName => 'tajineworld.com',
       source   => '/usr/src/dokuwiki',
       owner    => 'www-data'
-  }
-  install_site {
+    ;
     'lemondedelaraclette.fr':
       siteName => 'lemondedelaraclette.fr',
       source   => '/usr/src/dokuwiki',
@@ -75,7 +72,6 @@ node server0 {
 }
 
 node server1 {
-#  $siteName = "recettes.wiki"
   include dokuwiki
   install_site {
     'recettes.wiki':
@@ -84,16 +80,3 @@ node server1 {
       owner    => 'www-data'
   }
 }
-
-# class wikisite {
-#   file {
-#     'create site':
-#       ensure  => directory,
-#       path    => "/var/www/${siteName}",
-#       source  => '/usr/src/dokuwiki',
-#       recurse => true,
-#       owner   => 'www-data',
-#       group   => 'www-data',
-#       require => File['move-dokuwiki']
-#   }
-# }
