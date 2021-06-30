@@ -38,36 +38,47 @@ class dokuwiki {
 
 }
 
-define install_site($siteName, $source, $owner) {
+define install_site($siteName, $documentRoot, $source, $owner) {
   file {
     $siteName:
       ensure  => directory,
-      path    => "/var/www/${siteName}",
+      path    => $documentRoot,
       source  => $source,
       recurse => true,
       owner   => $owner,
       group   => $owner,
-      require => File['move-dokuwiki']
+      require => File['move-dokuwiki'],
   }
+
+  file {
+   "tpl $siteName":
+      ensure  => file,
+      path    => "/etc/apache2/sites-enabled/${siteName}.conf",
+      content => template("/vagrant/demo/apache.conf.erb")
+  }
+
 }
 
 node server0 {
   include dokuwiki
   install_site {
     'politique.wiki':
-      siteName => 'politique.wiki',
-      source   => '/usr/src/dokuwiki',
-      owner    => 'www-data'
+      siteName     => 'politique.wiki',
+      documentRoot => "/var/www/politique.wiki",
+      source       => '/usr/src/dokuwiki',
+      owner        => 'www-data'
     ;
     'tajineworld.com':
-      siteName => 'tajineworld.com',
-      source   => '/usr/src/dokuwiki',
-      owner    => 'www-data'
+      siteName     => 'tajineworld.com',
+      documentRoot => "/var/www/tajineworld.com",
+      source       => '/usr/src/dokuwiki',
+      owner        => 'www-data'
     ;
     'lemondedelaraclette.fr':
-      siteName => 'lemondedelaraclette.fr',
-      source   => '/usr/src/dokuwiki',
-      owner    => 'www-data'
+      siteName     => 'lemondedelaraclette.fr',
+      documentRoot => "/var/www/lemondedelaraclette.fr",
+      source       => '/usr/src/dokuwiki',
+      owner        => 'www-data'
   }
 }
 
@@ -75,8 +86,9 @@ node server1 {
   include dokuwiki
   install_site {
     'recettes.wiki':
-      siteName => 'recettes.wiki',
-      source   => '/usr/src/dokuwiki',
-      owner    => 'www-data'
+      siteName     => 'recettes.wiki',
+      documentRoot => "/var/www/recettes.wiki",
+      source       => '/usr/src/dokuwiki',
+      owner        => 'www-data'
   }
 }
